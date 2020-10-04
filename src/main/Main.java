@@ -1,17 +1,22 @@
 package main;
 
+
 import com.google.gson.Gson;
 
 import model.Coordenadas;
+import model.Usuario;
 import processing.core.PApplet;
 
 public class Main extends PApplet implements OnMessageListener {
 	
 	TCPsingleton tcp;
 	int r,g,b;
-	int x,y;
-	Coordenadas coordenada;
+	int x = 0;
+	int y = 0;
+	int cambio;
+	String name = " ";
 	Coordenadas coordenadaReci;
+	Usuario user;
 	
 	String id;
 	
@@ -33,51 +38,50 @@ public class Main extends PApplet implements OnMessageListener {
 		
 		tcp = TCPsingleton.getInstance();
 		tcp.setObserver(this);
-		
-		
-		
-		r = (int) random(0,250);
-		g = (int) random(0,250);
-		b = (int) random(0,250);
-		
-		
 
-
-		
-		
 		
 	}
 	
 	public void draw() {
-		background(0);
-		ellipse(x,y,50,50);
+		background(255);
+		
 		fill(r,g,b);
+		text(name,x-10,y-30);
+		noStroke();
+		ellipse(x,y,50,50);
+		
 	}
 	
-	public void mousePressed() {
-		
-		tcp.enviar("hola");
-		rect(100,100,100,100);
-		
-	}
 
 	@Override
 	public void messageReceived(String msg) {
 				
 		System.out.println(msg);
-		
 		Gson gson = new Gson();
 		
-		 coordenadaReci = gson.fromJson(msg, Coordenadas.class);
+		if(cambio ==0) {
+			
+			 user = gson.fromJson(msg, Usuario.class);
+		
+		}
+		
+		cambio = user.getNumero();
+		name = user.getName();
+		
+		if(cambio == 1) {
+			
+			coordenadaReci = gson.fromJson(msg, Coordenadas.class);
+			 
+			  x =coordenadaReci.getX();
+			  y = coordenadaReci.getY();
+			  r = coordenadaReci.getR();
+			  g = coordenadaReci.getG();
+			  b = coordenadaReci.getB();
+
+			
+		}
+		
 		 
-		  x =coordenadaReci.getX();
-		  y = coordenadaReci.getY();
-		 
-		
-		
-		
-		
-		
 		
 	}
 
