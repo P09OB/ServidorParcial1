@@ -12,7 +12,7 @@ import java.net.Socket;
 
 public class TCPsingleton extends Thread {
 	
-	private static TCPsingleton instance  ;
+	private static TCPsingleton instance;
 	
 	private TCPsingleton() {}
 	
@@ -42,7 +42,7 @@ public class TCPsingleton extends Thread {
 		try {
 			
 			System.out.println("Esperando conexion....");
-			ServerSocket server = new ServerSocket(5000);
+			ServerSocket server = new ServerSocket(4000);
 			socket = server.accept();
 			System.out.println("Conectados");
 			
@@ -60,7 +60,6 @@ public class TCPsingleton extends Thread {
 			}
 			
 		
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +76,7 @@ public class TCPsingleton extends Thread {
 				()->{
 					
 					try {
-						writer.write(mgs);
+						writer.write(mgs + "\n");
 						writer.flush();
 						
 					} catch (IOException e) {
@@ -89,6 +88,8 @@ public class TCPsingleton extends Thread {
 		
 		
 	}
+	
+	
 	
 	
 	
